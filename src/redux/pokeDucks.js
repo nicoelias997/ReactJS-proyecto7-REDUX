@@ -13,6 +13,8 @@ const dataInicial = {
 const OBTENER_POKEMONES_EXITO = 'OBTENER_POKEMONES_EXITO'
 const SIGUIENTE_POKEMONES_EXITO = 'SIGUIENTE_POKEMONES_EXITO'
 const ANTERIOR_POKEMONES_EXITO = 'ANTERIOR_POKEMONES_EXITO'
+const DETALLE_POKEMONES_EXITO = 'DETALLE_POKEMONES_EXITO'
+
 
 // reducer
 export default function pokeReducer(state = dataInicial, action){
@@ -23,6 +25,10 @@ export default function pokeReducer(state = dataInicial, action){
             return {...state, ...action.payload}
         case ANTERIOR_POKEMONES_EXITO:
             return {...state, ...action.payload}
+        case DETALLE_POKEMONES_EXITO:
+            return{
+                ...state, unPokemon: action.payload
+            }
         default:
             return state
     }
@@ -108,4 +114,24 @@ export const anteriorPokemonAccion = () => async (dispatch, getState) => {
     } catch (error) {
         console.log(error)
     }
+}
+
+//4ta accion, pintando detalles de los pokemon
+export const unPokeDetalle = (url = "https://pokeapi.co/api/v2/pokemon/1/") => async (dispatch, getState) => {
+
+     try{
+        const res = await axios.get(url)
+        console.log(res.data)
+        dispatch({
+            type: DETALLE_POKEMONES_EXITO,
+            payload: {
+                nombre: res.data.name,
+                peso: res.data.weight,
+                alto: res.data.height,
+                imagen: res.data.sprites.front_default
+            }
+        })
+     } catch(error){
+        console.log(error)
+     }
 }
