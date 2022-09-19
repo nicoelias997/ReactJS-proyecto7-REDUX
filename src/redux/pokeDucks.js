@@ -50,7 +50,7 @@ export const obtenerPokemonesAccion = () => async (dispatch, getState) => {
     }
 
     try {
-        const res = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
+        const res = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=10')
         dispatch({
             type: OBTENER_POKEMONES_EXITO,
             payload: res.data
@@ -119,9 +119,15 @@ export const anteriorPokemonAccion = () => async (dispatch, getState) => {
 //4ta accion, pintando detalles de los pokemon
 export const unPokeDetalle = (url = "https://pokeapi.co/api/v2/pokemon/1/") => async (dispatch, getState) => {
 
+    if(localStorage.getItem(url)){
+        dispatch({
+            type: DETALLE_POKEMONES_EXITO,
+            payload: JSON.parse(localStorage.getItem(url))
+        })
+
+    }
      try{
         const res = await axios.get(url)
-        console.log(res.data)
         dispatch({
             type: DETALLE_POKEMONES_EXITO,
             payload: {
@@ -131,6 +137,12 @@ export const unPokeDetalle = (url = "https://pokeapi.co/api/v2/pokemon/1/") => a
                 imagen: res.data.sprites.front_default
             }
         })
+        localStorage.setItem(url,JSON.stringify({
+            nombre: res.data.name,
+            peso: res.data.weight,
+            alto: res.data.height,
+            imagen: res.data.sprites.front_default
+        }))
      } catch(error){
         console.log(error)
      }

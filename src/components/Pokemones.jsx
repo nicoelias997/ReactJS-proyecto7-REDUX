@@ -11,6 +11,13 @@ const Pokemones = () => {
     const next = useSelector(store => store.pokemones.next)
     const previous = useSelector(store => store.pokemones.previous)
 
+    React.useEffect(()=> {
+        const fetchData = () => {
+            dispatch(obtenerPokemonesAccion())
+        }
+        fetchData()
+    } , [dispatch])
+
     return (
         <div className='row'>
             <div className="col-md-6">

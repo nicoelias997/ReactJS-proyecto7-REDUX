@@ -14,7 +14,6 @@ const PokeDetalle = () => {
     } , [dispatch])
 
     const pokemon = useSelector(store => store.pokemones.unPokemon)
-    console.log(pokemon)
 
   return pokemon ? (
     <div className='card text-center mt-5'>
