@@ -25,7 +25,7 @@ function App() {
     fetchUser()  
   }, [])
 
-  const RutaPrivada = ({element: Component, authenticated}) => { //creamos esta funcion, porque reemplazaremos esta ruta, en todas las rutas que sean privadas!! Reemplazamos el route por la ruta privada
+  const RutaPrivada = ({element: Component, authenticated}) => { //creamos esta funcion, porque reemplazaremos esta ruta, en todas las rutas que sean privadas!!
       if(localStorage.getItem("usuario")){
         //otra validacion seria que un user malo  no cree desde informacion desde su pc directamente al local storage
         const usuarioStorage = JSON.parse(localStorage.getItem("usuario"))        
@@ -34,8 +34,6 @@ function App() {
         }
     }
   }
-    
-    
 
   return firebaseUser !== false ? (
     <Router>
@@ -44,7 +42,7 @@ function App() {
 
         </Navbar>
         <Routes>
-          <Route element={<RutaPrivada authenticated={true} element={Pokemones}></RutaPrivada>} path="/" exact="true">
+          <Route element={<RutaPrivada authenticated={true} element={Pokemones}></RutaPrivada>} path="/">
           </Route>
 
           <Route element={<Login></Login>} path="/login">
