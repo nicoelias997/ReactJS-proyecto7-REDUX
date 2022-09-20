@@ -10,8 +10,6 @@ const Login = () => {
 
     const loading = useSelector(store => store.usuario.loading) 
     const activo = useSelector(store => store.usuario.activo) 
-    console.log(loading)
-    console.log(activo)
 
     const navigate = useNavigate()
 

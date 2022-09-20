@@ -46,7 +46,7 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
     try{
         const provider = new firebase.auth.GoogleAuthProvider(); //declaramos el provider, que sera una nueva autenticacion con google(sacada desde firebase)
         const res = await signInWithPopup(auth, provider); //signIn nos pide una uutenticacion
-        console.log(res) // la respuesta sera un usuario
+        
         dispatch({
             type: INGRESO_USUARIO_EXITO,
             payload: {

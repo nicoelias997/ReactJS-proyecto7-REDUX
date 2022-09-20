@@ -16,20 +16,18 @@ const Navbar = () => {
 
     return (
         <div className="navbar navbar-dark bg-dark">
-            <Link to="/" className="navbar-brand" exact>Poke API</Link>
+            <Link to="/" className="navbar-brand">Poke API</Link>
             <div>
                 <div className="d-flex">
                     <NavLink 
                         className="btn btn-dark mr-2" 
                         to="/"
-                        exact
                     >
                         Inicio
                     </NavLink>
                     <NavLink 
                         className="btn btn-dark mr-2" 
                         to="/login"
-                        exact
                     >
                         Login
                     </NavLink>
