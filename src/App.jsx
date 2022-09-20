@@ -18,7 +18,7 @@ function App() {
           <Route element={<Pokemones></Pokemones>} path="/" exact>
           </Route>
 
-          <Route element={<Login></Login>} path="/" exact>
+          <Route element={<Login></Login>} path="/login" exact>
           </Route>
 
         </Routes>

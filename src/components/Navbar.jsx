@@ -1,10 +1,22 @@
 import React from 'react'
-import {NavLink} from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import {Link, NavLink, useNavigate} from 'react-router-dom'
+import { cerraSesionAccion } from '../redux/usuarioDucks'
+
 
 const Navbar = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    //esta fc aparte de la del pato es para empujar el cierre al login
+    const cerrarSesion =  () => {
+        dispatch(cerraSesionAccion())
+        navigate("/login")
+    }
+
     return (
         <div className="navbar navbar-dark bg-dark">
-            <NavLink to="/" className="navbar-brand">Poke API</NavLink>
+            <Link to="/" className="navbar-brand" exact>Poke API</Link>
             <div>
                 <div className="d-flex">
                     <NavLink 
@@ -12,7 +24,7 @@ const Navbar = () => {
                         to="/"
                         exact
                     >
-                        Pokemon
+                        Inicio
                     </NavLink>
                     <NavLink 
                         className="btn btn-dark mr-2" 
@@ -23,6 +35,7 @@ const Navbar = () => {
                     </NavLink>
                     <button
                         className="btn btn-dark"
+                        onClick={() => cerrarSesion()}
                     >
                         cerrar Sesión
                     </button>
