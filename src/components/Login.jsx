@@ -17,7 +17,7 @@ const Login = () => {
         if(activo){
             navigate("/")
         }
-    }, [activo])
+    }, [activo, navigate])
 
     return (
         <div className="mt-5 text-center">
