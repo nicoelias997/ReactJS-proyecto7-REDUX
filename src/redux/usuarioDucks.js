@@ -39,7 +39,7 @@ export default function usuarioReducer(state = dataInicial, action){
 
 
 //acciones
-export const ingresoUsuarioAccion = () => async (dispatch) => {
+export const ingresoUsuarioAccion = () => async(dispatch) => {
     dispatch({
         type: LOADING //independiente de si ingresa al usuario o no
     })
@@ -47,32 +47,39 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
         const provider = new firebase.auth.GoogleAuthProvider(); //declaramos el provider, que sera una nueva autenticacion con google(sacada desde firebase)
         const res = await signInWithPopup(auth, provider); //signIn nos pide una uutenticacion
 
-        const usuario = {
+        const objetoUsuario = {
             uid: res.user.uid,
             email: res.user.email,
-            displayName: res.user.displayName,
-            photoUrl: res.user.photoURL
+            photoURL: res.user.photoURL,
+            displayName: res.user.displayName
         }
         
-        dispatch({
-            type: INGRESO_USUARIO_EXITO,
-            payload: {
-                uid: res.user.uid,
-                email: res.user.email
-            }
-        })
-        localStorage.setItem("usuario", JSON.stringify({
-            uid: res.user.uid,
-            email: res.user.email
-        }))
-    }  catch(error){
+        const usuarioDB = await db.collection('usuarios').doc(res.user.email).get()
+        if(usuarioDB.exists){//cuando exista, no necesitamos guardarlo, direc el dispatch y localstorage
+            console.log(usuarioDB.data())//data() nos trae el objeto de la base de datos
+            dispatch({
+                type: INGRESO_USUARIO_EXITO,
+                payload: usuarioDB.data()
+            })
+            localStorage.setItem('usuario', JSON.stringify(usuarioDB.data()))
+        }else{//Si no existe el usuario en firestore
+            console.log('no existe')
+            await db.collection('usuarios').doc(res.user.email).set(objetoUsuario)
+            dispatch({
+                type: INGRESO_USUARIO_EXITO,
+                payload: objetoUsuario
+            })
+            localStorage.setItem('usuario', JSON.stringify(objetoUsuario))
+        }
+
+        
+    } catch (error) {
         console.log(error)
         dispatch({
-            type: INGRESO_USUARIO_ERROR
+            type: INGRESO_USUARIO_ERROR 
         })
     }
 }
-
 export const leerUsuarioActivoAccion = () => (dispatch) => {
     if(localStorage.getItem("usuario")){
         dispatch({
