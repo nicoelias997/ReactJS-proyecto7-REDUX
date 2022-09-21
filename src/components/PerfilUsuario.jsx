@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {useSelector, useDispatch} from 'react-redux'
-import {actualizarDisplayNameAccion} from '../redux/usuarioDucks'
+import {actualizarDisplayNameAccion, actualizarFotoAccion} from '../redux/usuarioDucks'
 
 const Perfil = () => {
     const dispatch = useDispatch()
@@ -12,6 +12,8 @@ const Perfil = () => {
 
     const [displayName, setDisplayName] = React.useState(usuario.displayName)
     const [editarNombre, setEditarNombre] = React.useState(false)
+    const [error, setError] = React.useState(false)
+
 
     const botonEditarNombre = () => {
         if(!displayName.trim()){
@@ -21,6 +23,27 @@ const Perfil = () => {
         dispatch(actualizarDisplayNameAccion(displayName))
         setEditarNombre(false)
     }
+
+
+const seleccionarArchivo = (e) => {
+    console.log(e.target.files[0])   
+    const imagen = e.target.files[0]
+
+    if(imagen === undefined){
+        console.log('sin imagen')
+        return
+    }
+
+    if(imagen.type === 'image/jpeg' || imagen.type === 'image/png'){
+        dispatch(actualizarFotoAccion(imagen))       
+        setError(false) 
+        }else{
+        console.log('archivo no válido')
+        setError(true)
+        return
+        }
+}
+
 
     return (
         <div className="mt-5 text-center">
@@ -73,6 +96,29 @@ const Perfil = () => {
                         </div>
                     </div>
                 }
+                <div className="custom-file">
+    {
+        error &&
+        <div className="alert alert-warning">
+            Foto en .png o .jpg
+        </div>
+    }
+    <input 
+        type="file" 
+        className="custom-file-input mb-2" 
+        id="validatedCustomFile" 
+        onChange={e => seleccionarArchivo(e)}
+        required 
+        disabled={loading}
+        style={{display:'none'}}
+        />
+    <label 
+        className={loading ? "btn btn-dark mb-2 disabled" : "btn btn-dark mb-2"}
+        htmlFor="validatedCustomFile"
+        >
+            Editar foto perfil
+    </label>
+</div>
             </div>
         </div>
     )

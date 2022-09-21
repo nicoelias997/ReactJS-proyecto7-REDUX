@@ -1,5 +1,6 @@
-import {auth,firebase, db} from "../firebase"
+import {auth,firebase, db, storage} from "../firebase"
 import { signInWithPopup } from "firebase/auth";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
 
 //data iniciales
 const dataInicial = {
@@ -119,4 +120,37 @@ export const actualizarDisplayNameAccion = (nuevoNombre) => async (dispatch, get
     } catch (error) {
         console.log(error)
     }
+}
+
+export const actualizarFotoAccion = (imagen) => async (dispatch, getState) => {
+    dispatch({
+        type: LOADING
+    })
+    const {user} = getState().usuario
+
+    try {
+        const refImagen = ref(storage, `${user.email}/FotoDePerfil`) // seria el archivo con referencia al storage
+        console.log(refImagen)
+        await uploadBytes(refImagen, imagen)
+        const urlDescarga = await getDownloadURL(refImagen)
+
+        await db.collection('usuarios').doc(user.email).update({
+            photoURL: urlDescarga
+        })
+
+        const usuarioEditado = {
+            ...user,
+            photoURL: urlDescarga
+        }
+        dispatch({
+            type: INGRESO_USUARIO_EXITO,
+            payload: usuarioEditado
+        })
+        localStorage.setItem('usuario', JSON.stringify(usuarioEditado))
+
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 }
