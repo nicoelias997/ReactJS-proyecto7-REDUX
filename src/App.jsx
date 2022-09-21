@@ -1,5 +1,6 @@
 import React from "react";
 import Pokemones from "./components/Pokemones";
+import PerfilUsuario from "./components/PerfilUsuario"
 
 import { auth } from "./firebase";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
@@ -43,6 +44,8 @@ function App() {
         </Navbar>
         <Routes>
           <Route element={<RutaPrivada authenticated={true} element={Pokemones}></RutaPrivada>} path="/">
+          </Route>
+          <Route element={<RutaPrivada authenticated={true} element={PerfilUsuario}></RutaPrivada>} path="/perfil">
           </Route>
 
           <Route element={<Login></Login>} path="/login">

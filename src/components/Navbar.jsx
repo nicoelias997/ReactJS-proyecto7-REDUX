@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector} from 'react-redux'
-import {Link, NavLink, useNavigate} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import { cerraSesionAccion } from '../redux/usuarioDucks'
 
 
@@ -17,7 +17,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar navbar-dark bg-dark">
-            <Link to="/" className="navbar-brand">Poke API</Link>
+            <NavLink to="/" className="navbar-brand">Poke API</NavLink>
             <div>
                 <div className="d-flex">
                     {
@@ -28,6 +28,13 @@ const Navbar = () => {
                                     to="/"
                                 >
                                     Pokemon
+                                </NavLink>
+                                <NavLink 
+                                className='btn btn-dark'
+                                type='button'
+                                to="/perfil"
+                                >
+                                    Perfil
                                 </NavLink>
                                 <button
                                     className="btn btn-dark"
