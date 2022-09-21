@@ -1,4 +1,4 @@
-import {auth,firebase} from "../firebase"
+import {auth,firebase, db} from "../firebase"
 import { signInWithPopup } from "firebase/auth";
 
 //data iniciales
@@ -46,6 +46,13 @@ export const ingresoUsuarioAccion = () => async (dispatch) => {
     try{
         const provider = new firebase.auth.GoogleAuthProvider(); //declaramos el provider, que sera una nueva autenticacion con google(sacada desde firebase)
         const res = await signInWithPopup(auth, provider); //signIn nos pide una uutenticacion
+
+        const usuario = {
+            uid: res.user.uid,
+            email: res.user.email,
+            displayName: res.user.displayName,
+            photoUrl: res.user.photoURL
+        }
         
         dispatch({
             type: INGRESO_USUARIO_EXITO,
